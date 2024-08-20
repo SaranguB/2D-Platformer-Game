@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -7,27 +9,84 @@ public class PlayerController : MonoBehaviour
 {
     public Animator animator;
     public BoxCollider2D collission;
-    Vector2 newOffset;
-    Vector2 newSize;
+    public float speed;
+    private Rigidbody2D rb2D;
+    public float jump;
 
+    private Vector2 boxColInitSize;
+    private Vector2 boxColInitOffset;
+
+    private void Awake()
+    {
+        rb2D = gameObject.GetComponent<Rigidbody2D>();
+
+    }
+
+    public void Start()
+    {
+
+
+        boxColInitSize = collission.size;
+        boxColInitOffset = collission.offset;
+
+    }
     void Update()
     {
-        float Speed = Input.GetAxisRaw("Horizontal");
-        animator.SetFloat("Speed", Mathf.Abs(Speed));
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Jump");
+
+        PlayMovementAnimation(horizontal, vertical);
+        MoveCharecter(horizontal, vertical);
+
+        CrouchAnimation();
+
+    }
+    private void PlayMovementAnimation(float horizontal, float vertical)
+    {
+        animator.SetFloat("Speed", Mathf.Abs(horizontal));
 
         Vector3 scale = transform.localScale;
-        if (Speed < 0)
+        if (horizontal < 0)
         {
             scale.x = -1f * Mathf.Abs(scale.x);
         }
-        else if (Speed > 0)
+        else if (horizontal > 0)
         {
             scale.x = Mathf.Abs(scale.x);
         }
         transform.localScale = scale;
 
+        if (vertical > 0)
+        {
+            animator.SetBool("Jump", true);
+        }
+        else
+        {
+
+            animator.SetBool("Jump", false);
+        }
+
+
+    }
+
+    private void MoveCharecter(float horizontal, float vertical)
+    {
+        Vector3 position = transform.position;
+        position.x += horizontal * speed * Time.deltaTime;
+        transform.position = position;
+
+        if (vertical > 0)
+        {
+            rb2D.AddForce(new Vector2(0f, jump), ForceMode2D.Force);
+        }
+    }
+
+    private void CrouchAnimation()
+    {
         bool crouch = false;
         animator.SetBool("Crouch", crouch);
+        Vector2 newOffset;
+        Vector2 newSize;
         if (Input.GetKey(KeyCode.LeftControl))
         {
             crouch = true;
@@ -45,27 +104,15 @@ public class PlayerController : MonoBehaviour
         {
             crouch = false;
             newOffset = collission.offset;
-            newOffset.y = 1f;
+            newOffset.y = boxColInitOffset.y;
             collission.offset = newOffset;
 
             newSize = collission.size;
-            newSize.y = 2f;
+            newSize.y = boxColInitSize.y;
             collission.size = newSize;
             animator.SetBool("Crouch", crouch);
         }
-
-        float verticalSpeed = Input.GetAxisRaw("Vertical");
-        bool jump = false;
-        if (verticalSpeed > 0)
-        {
-            jump = true;
-        }
-        else 
-        {
-            verticalSpeed = 0;
-            jump = false;
-        }
-        animator.SetBool("Jump", jump);
-
     }
+
+
 }
