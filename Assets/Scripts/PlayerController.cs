@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 boxColInitSize;
     private Vector2 boxColInitOffset;
 
+    bool isGround;
+
     private void Awake()
     {
         rb2D = gameObject.GetComponent<Rigidbody2D>();
@@ -37,28 +39,33 @@ public class PlayerController : MonoBehaviour
 
         PlayMovementAnimation(horizontal, vertical);
         MoveCharecter(horizontal, vertical);
-
         CrouchAnimation();
 
     }
     private void PlayMovementAnimation(float horizontal, float vertical)
     {
-        animator.SetFloat("Speed", Mathf.Abs(horizontal));
-
-        Vector3 scale = transform.localScale;
-        if (horizontal < 0)
+        if (isGround)
         {
-            scale.x = -1f * Mathf.Abs(scale.x);
-        }
-        else if (horizontal > 0)
-        {
-            scale.x = Mathf.Abs(scale.x);
-        }
-        transform.localScale = scale;
+            animator.SetFloat("Speed", Mathf.Abs(horizontal));
 
-        if (vertical > 0)
+            Vector3 scale = transform.localScale;
+
+            if (horizontal < 0)
+            {
+                scale.x = -1f * Mathf.Abs(scale.x);
+            }
+            else if (horizontal > 0)
+            {
+                scale.x = Mathf.Abs(scale.x);
+            }
+
+            transform.localScale = scale;
+        }
+
+        if (vertical > 0 && isGround)
         {
             animator.SetBool("Jump", true);
+
         }
         else
         {
@@ -71,13 +78,17 @@ public class PlayerController : MonoBehaviour
 
     private void MoveCharecter(float horizontal, float vertical)
     {
-        Vector3 position = transform.position;
-        position.x += horizontal * speed * Time.deltaTime;
-        transform.position = position;
-
-        if (vertical > 0)
+        if (isGround)
         {
-            rb2D.AddForce(new Vector2(0f, jump), ForceMode2D.Force);
+            Vector3 position = transform.position;
+            position.x += horizontal * speed * Time.deltaTime;
+            transform.position = position;
+
+            if (vertical > 0)
+            {
+                rb2D.AddForce(new Vector2(0f, jump), ForceMode2D.Force);
+                isGround = false;
+            }
         }
     }
 
@@ -87,32 +98,51 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("Crouch", crouch);
         Vector2 newOffset;
         Vector2 newSize;
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (isGround)
         {
-            crouch = true;
-            newOffset = collission.offset;
-            newOffset.y = .5f;
-            collission.offset = newOffset;
 
-            newSize = collission.size;
-            newSize.y = 1f;
-            collission.size = newSize;
-            animator.SetBool("Crouch", crouch);
 
-        }
-        else
-        {
-            crouch = false;
-            newOffset = collission.offset;
-            newOffset.y = boxColInitOffset.y;
-            collission.offset = newOffset;
+            if (Input.GetKey(KeyCode.LeftControl))
+            {
+                crouch = true;
+                newOffset = collission.offset;
+                newOffset.y = .5f;
+                collission.offset = newOffset;
 
-            newSize = collission.size;
-            newSize.y = boxColInitSize.y;
-            collission.size = newSize;
-            animator.SetBool("Crouch", crouch);
+                newSize = collission.size;
+                newSize.y = 1f;
+                collission.size = newSize;
+                animator.SetBool("Crouch", crouch);
+
+            }
+            else
+            {
+                crouch = false;
+                newOffset = collission.offset;
+                newOffset.y = boxColInitOffset.y;
+                collission.offset = newOffset;
+
+                newSize = collission.size;
+                newSize.y = boxColInitSize.y;
+                collission.size = newSize;
+                animator.SetBool("Crouch", crouch);
+            }
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Platform"))
+        {
+            isGround = true;
+        }
+    }
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Platform"))
+        {
+            isGround = false;
+        }
+    }
 
 }

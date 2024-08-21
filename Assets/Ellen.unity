@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 1676474003}
   m_Layer: 0
   m_Name: Platform
-  m_TagString: Untagged
+  m_TagString: Platform
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -324,6 +324,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1970942748, guid: 8e1af17933d44114baf1e0defc0ba0dd, type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1970942749, guid: 8e1af17933d44114baf1e0defc0ba0dd, type: 3}
+      propertyPath: jump
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 5994954131122226690, guid: 8e1af17933d44114baf1e0defc0ba0dd,
         type: 3}
       propertyPath: m_RootOrder
