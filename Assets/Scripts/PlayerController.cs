@@ -44,23 +44,21 @@ public class PlayerController : MonoBehaviour
     }
     private void PlayMovementAnimation(float horizontal, float vertical)
     {
-        if (isGround)
+        animator.SetFloat("Speed", Mathf.Abs(horizontal));
+
+        Vector3 scale = transform.localScale;
+
+        if (horizontal < 0)
         {
-            animator.SetFloat("Speed", Mathf.Abs(horizontal));
-
-            Vector3 scale = transform.localScale;
-
-            if (horizontal < 0)
-            {
-                scale.x = -1f * Mathf.Abs(scale.x);
-            }
-            else if (horizontal > 0)
-            {
-                scale.x = Mathf.Abs(scale.x);
-            }
-
-            transform.localScale = scale;
+            scale.x = -1f * Mathf.Abs(scale.x);
         }
+        else if (horizontal > 0)
+        {
+            scale.x = Mathf.Abs(scale.x);
+        }
+
+        transform.localScale = scale;
+
 
         if (vertical > 0 && isGround)
         {
@@ -78,18 +76,17 @@ public class PlayerController : MonoBehaviour
 
     private void MoveCharecter(float horizontal, float vertical)
     {
-        if (isGround)
-        {
-            Vector3 position = transform.position;
-            position.x += horizontal * speed * Time.deltaTime;
-            transform.position = position;
 
-            if (vertical > 0)
-            {
-                rb2D.AddForce(new Vector2(0f, jump), ForceMode2D.Force);
-                isGround = false;
-            }
+        Vector3 position = transform.position;
+        position.x += horizontal * speed * Time.deltaTime;
+        transform.position = position;
+
+        if (vertical > 0 && isGround)
+        {
+            rb2D.AddForce(new Vector2(0f, jump), ForceMode2D.Impulse);
+            isGround = false;
         }
+
     }
 
     private void CrouchAnimation()
@@ -130,7 +127,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnCollisionStay2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Platform"))
         {
