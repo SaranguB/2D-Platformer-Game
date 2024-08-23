@@ -8,8 +8,9 @@ public class DeathController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.GetComponent<PlayerController>() != null)
-        { 
-            SceneManager.LoadScene("Level 1");
+        {
+            int currentSceneIntex = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(currentSceneIntex);
         }
     }
 
