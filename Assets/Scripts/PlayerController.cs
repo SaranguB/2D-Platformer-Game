@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -7,6 +8,7 @@ using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
+    public ScoreController scoreController;
     public Animator animator;
     public BoxCollider2D collission;
     public float speed;
@@ -141,5 +143,8 @@ public class PlayerController : MonoBehaviour
             isGround = false;
         }
     }
-
+    public void PickUpKey()
+    {
+        scoreController.IncreaseScore(10);
+    }
 }

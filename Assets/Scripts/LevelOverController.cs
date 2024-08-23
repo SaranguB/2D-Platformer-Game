@@ -9,7 +9,7 @@ public class LevelOverController : MonoBehaviour
     {
         if (other.gameObject.GetComponent<PlayerController>() != null)
         {
-            Debug.Log("finsihed");
+  
             SceneManager.LoadScene("Level 2");
         }
     }
