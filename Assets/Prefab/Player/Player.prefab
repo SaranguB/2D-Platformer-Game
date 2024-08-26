@@ -258,3 +258,7 @@ MonoBehaviour:
   collission: {fileID: 1970942747}
   speed: 5
   jump: 40
+  hearts:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

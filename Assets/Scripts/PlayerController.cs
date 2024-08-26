@@ -15,11 +15,14 @@ public class PlayerController : MonoBehaviour
     public float speed;
     private Rigidbody2D rb2D;
     public float jump;
+    public List<GameObject> hearts;
 
     private Vector2 boxColInitSize;
     private Vector2 boxColInitOffset;
 
     bool isGround;
+
+    private int health = 3;
 
     private void Awake()
     {
@@ -151,9 +154,17 @@ public class PlayerController : MonoBehaviour
 
     public void KillPlayer()
     {
-        ReloadLevel();
+        if (health > 0)
+        {
+            health--;
+            hearts[health].SetActive(false);
+        }
+        if (health == 0)
+        {
+            ReloadLevel();
+        }
     }
-    
+
     private void ReloadLevel()
     {
         int currentSceneIntex = SceneManager.GetActiveScene().buildIndex;
