@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEditor.Tilemaps;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
@@ -146,5 +147,16 @@ public class PlayerController : MonoBehaviour
     public void PickUpKey()
     {
         scoreController.IncreaseScore(10);
+    }
+
+    public void KillPlayer()
+    {
+        ReloadLevel();
+    }
+    
+    private void ReloadLevel()
+    {
+        int currentSceneIntex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIntex);
     }
 }
