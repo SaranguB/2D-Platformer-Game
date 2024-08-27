@@ -7,11 +7,17 @@ using UnityEngine.UI;
 public class GameOverController : MonoBehaviour
 {
     public Button buttonRestart;
-   
+    public Button buttonMenu;
 
     private void Awake()
     {
         buttonRestart.onClick.AddListener(ReloadLevel);
+        buttonMenu.onClick.AddListener(LoadMenu);
+    }
+    private void LoadMenu()
+    {
+        SceneManager.LoadScene(0);
+
     }
     public void PlayerDied()
     {
