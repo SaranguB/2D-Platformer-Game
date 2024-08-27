@@ -22,7 +22,7 @@ public class KeyController : MonoBehaviour
 
         if (position.y > YPosition)
         {
-            Debug.Log("hi");
+            //Debug.Log("hi");
             Destroy(gameObject);
         }
     }

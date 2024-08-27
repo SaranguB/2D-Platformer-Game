@@ -9,7 +9,8 @@ public class LevelOverController : MonoBehaviour
     {
         if (other.gameObject.GetComponent<PlayerController>() != null)
         {
-            SceneManager.LoadScene("Level 2");
+            int currentSceneIntex = SceneManager.GetActiveScene().buildIndex;
+            SceneManager.LoadScene(currentSceneIntex);
         }
     }
 }

@@ -20,19 +20,19 @@ public class EnemyController : MonoBehaviour
 
         if (currentPoint == PointB.transform)
         {
-                Debug.Log("forward");
+               // Debug.Log("forward");
             rb.velocity = new Vector2(speed, 0);
         }
         else
         {
-            Debug.Log("Backward");
+           // Debug.Log("Backward");
 
             rb.velocity = new Vector2(-speed, 0);
         }
 
         if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == PointB.transform)
         {
-            Debug.Log("hi");
+            
             Flip();
             currentPoint = PointA.transform;
         }

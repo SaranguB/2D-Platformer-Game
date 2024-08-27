@@ -16,10 +16,10 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb2D;
     public float jump;
     public List<GameObject> hearts;
-
+    public GameOverController gameOverController;
     private Vector2 boxColInitSize;
     private Vector2 boxColInitOffset;
-
+    private Camera mainCamera;
     bool isGround;
 
     private int health = 3;
@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
 
         boxColInitSize = collission.size;
         boxColInitOffset = collission.offset;
+        mainCamera = Camera.main;
 
     }
     void Update()
@@ -161,13 +162,26 @@ public class PlayerController : MonoBehaviour
         }
         if (health == 0)
         {
-            ReloadLevel();
+            PlayDeathAnimation();
+            PlayerDeath();
         }
     }
 
-    private void ReloadLevel()
+    private void PlayerDeath()
     {
-        int currentSceneIntex = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.LoadScene(currentSceneIntex);
+        mainCamera.transform.parent = null;
+        rb2D.constraints = RigidbodyConstraints2D.FreezePosition;
+        gameOverController.PlayerDied();
+        this.enabled = false;
+        //ReloadLevel();
     }
+
+    private void PlayDeathAnimation()
+    {
+        animator.SetTrigger("Die");
+    }
+
+
+
+
 }
