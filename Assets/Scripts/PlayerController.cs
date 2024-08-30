@@ -169,6 +169,7 @@ public class PlayerController : MonoBehaviour
 
     private void PlayerDeath()
     {
+      //  Debug.Log("hi");
         mainCamera.transform.parent = null;
         rb2D.constraints = RigidbodyConstraints2D.FreezePosition;
         gameOverController.PlayerDied();

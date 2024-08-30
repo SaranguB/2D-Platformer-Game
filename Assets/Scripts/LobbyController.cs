@@ -9,6 +9,7 @@ public class LobbyController : MonoBehaviour
 {
     public Button playButton;
     public Button buttonQuit;
+    public GameObject levelSelection;
 
     private void Awake()
     {
@@ -23,6 +24,6 @@ public class LobbyController : MonoBehaviour
     }
     private void PlayButton()
     {
-        SceneManager.LoadScene(1);
+        levelSelection.SetActive(true);
     }
 }
