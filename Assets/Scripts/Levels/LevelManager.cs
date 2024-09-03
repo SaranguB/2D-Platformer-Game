@@ -13,10 +13,19 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        if (GetLevelStatus(Levels[0]) == LevelStatus.LOCKED) ;
+        if (GetLevelStatus(Levels[0]) == LevelStatus.LOCKED || GetLevelStatus(Levels[0]) == LevelStatus.COMPLETED)
         {
             SetLevelStatus(Levels[0], LevelStatus.UNLOCKED);
         }
+        for (int i = 1; i < Levels.Length; i++)
+        {
+            if (GetLevelStatus(Levels[i]) == LevelStatus.UNLOCKED)
+            {
+                SetLevelStatus(Levels[i], LevelStatus.LOCKED);
+
+            }
+        }
+
     }
     private void Awake()
     {
@@ -48,15 +57,15 @@ public class LevelManager : MonoBehaviour
         }
 
     }
-    public LevelStatus GetLevelStatus(string Level)
+    public LevelStatus GetLevelStatus(string level)
     {
-        LevelStatus levelStatus = (LevelStatus)PlayerPrefs.GetInt(Level, 0);
+        LevelStatus levelStatus = (LevelStatus)PlayerPrefs.GetInt(level, 0);
         return levelStatus;
     }
 
-    public void SetLevelStatus(string Level, LevelStatus LevelStatus)
+    public void SetLevelStatus(string level, LevelStatus LevelStatus)
     {
 
-        PlayerPrefs.SetInt(Level, (int)LevelStatus);
+        PlayerPrefs.SetInt(level, (int)LevelStatus);
     }
 }

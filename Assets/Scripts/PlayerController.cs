@@ -88,6 +88,9 @@ public class PlayerController : MonoBehaviour
         position.x += horizontal * speed * Time.deltaTime;
         transform.position = position;
 
+
+
+
         if (vertical > 0 && isGround)
         {
             rb2D.AddForce(new Vector2(0f, jump), ForceMode2D.Impulse);
@@ -96,6 +99,14 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public void PlaySound()
+    {
+        if (isGround)
+        {
+            SoundManager.Instance.Play(Sounds.PLAYER_MOVE);
+
+        }
+    }
     private void CrouchAnimation()
     {
         bool crouch = false;
@@ -157,6 +168,7 @@ public class PlayerController : MonoBehaviour
     {
         if (health > 0)
         {
+            SoundManager.Instance.Play(Sounds.PAIN);
             health--;
             hearts[health].SetActive(false);
         }
@@ -169,7 +181,7 @@ public class PlayerController : MonoBehaviour
 
     private void PlayerDeath()
     {
-      //  Debug.Log("hi");
+        //  Debug.Log("hi");
         mainCamera.transform.parent = null;
         rb2D.constraints = RigidbodyConstraints2D.FreezePosition;
         gameOverController.PlayerDied();
