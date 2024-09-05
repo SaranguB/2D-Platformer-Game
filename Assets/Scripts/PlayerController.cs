@@ -1,11 +1,7 @@
-using System;
-using System.Collections;
+
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using UnityEditor.Tilemaps;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -66,7 +62,7 @@ public class PlayerController : MonoBehaviour
 
         PlayMovementAnimation(horizontal, vertical);
         MoveCharecter(horizontal, vertical);
-        CrouchAnimation();
+        //CrouchAnimation();
 
 
     }
@@ -110,7 +106,6 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("Jump", false);
         }
 
-
     }
 
     public void ResetCollider()
@@ -127,8 +122,6 @@ public class PlayerController : MonoBehaviour
         transform.position = position;
 
 
-
-
         if (vertical > 0 && isGround)
         {
             rb2D.AddForce(new Vector2(0f, jump), ForceMode2D.Impulse);
@@ -139,7 +132,6 @@ public class PlayerController : MonoBehaviour
             newSize.y = 1f;
             collission.size = newSize;
 
-            // Adjust the offset to keep the top of the collider in the same position
             Vector2 newOffset = collission.offset;
             newOffset.y = 1.5f;
             collission.offset = newOffset;
@@ -155,7 +147,7 @@ public class PlayerController : MonoBehaviour
 
         }
     }
-    private void CrouchAnimation()
+    /*private void CrouchAnimation()
     {
         bool crouch = false;
         animator.SetBool("Crouch", crouch);
@@ -191,7 +183,7 @@ public class PlayerController : MonoBehaviour
                 animator.SetBool("Crouch", crouch);
             }
         }
-    }
+    }*/
 
     private void OnCollisionStay2D(Collision2D other)
     {
@@ -210,7 +202,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("MovingPlatform"))
         {
             transform.parent = other.transform;
-            
+
         }
     }
     private void OnCollisionExit2D(Collision2D other)
@@ -223,7 +215,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("MovingPlatform"))
         {
             transform.parent = null;
-           
+
         }
     }
     public void PickUpKey()
@@ -250,7 +242,7 @@ public class PlayerController : MonoBehaviour
     private void PlayerDeath()
     {
 
-       // mainCamera.transform.parent = null;
+
         rb2D.constraints = RigidbodyConstraints2D.FreezePosition;
         gameOverController.PlayerDied();
         this.enabled = false;

@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
@@ -97,9 +94,6 @@ public class SoundManager : MonoBehaviour
             Debug.LogError("Sound Couldnt be loaded");
         }
     }
-
-
-
     public void Mute(bool status)
     {
         isMute = status;
@@ -135,7 +129,6 @@ public enum Sounds
     BUTTON_CLICK,
     PLAYER_MOVE,
     PLAYER_DEATH,
-    ENEMY_DEATH,
     MUSIC,
     PAIN,
     PLAYER_WON,

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
@@ -15,25 +13,23 @@ public class EnemyController : MonoBehaviour
         currentPoint = PointB.transform;
     }
 
-    
+
     private void Update()
     {
 
         if (currentPoint == PointB.transform)
         {
-               // Debug.Log("forward");
+            // Debug.Log("forward");
             rb.velocity = new Vector2(speed, 0);
         }
         else
         {
-           // Debug.Log("Backward");
-
+            // Debug.Log("Backward");
             rb.velocity = new Vector2(-speed, 0);
         }
 
         if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == PointB.transform)
         {
-            
             Flip();
             currentPoint = PointA.transform;
         }
@@ -54,7 +50,6 @@ public class EnemyController : MonoBehaviour
     {
         Gizmos.DrawWireSphere(PointA.transform.position, 0.5f);
         Gizmos.DrawWireSphere(PointB.transform.position, 0.5f);
-
         Gizmos.DrawLine(PointA.transform.position, PointB.transform.position);
 
     }

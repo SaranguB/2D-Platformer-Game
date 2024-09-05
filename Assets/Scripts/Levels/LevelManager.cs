@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -47,10 +46,12 @@ public class LevelManager : MonoBehaviour
     {
         Scene currentScene = SceneManager.GetActiveScene();
         SetLevelStatus(currentScene.name, LevelStatus.COMPLETED);
+
         /*
                 int nextSceneIndex = currentScene.buildIndex + 1;
                 Scene nextScene = SceneManager.GetSceneByBuildIndex(nextSceneIndex);
                 SetLevelStatus(nextScene.name, LevelStatus.UNLOCKED);*/
+
         int currentSceneIndex = Array.FindIndex(Levels, level => level == currentScene.name);
         int nextSceneIndex = currentSceneIndex + 1;
         if (nextSceneIndex < Levels.Length)

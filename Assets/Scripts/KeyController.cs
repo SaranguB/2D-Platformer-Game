@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class KeyController : MonoBehaviour
@@ -49,7 +46,7 @@ public class KeyController : MonoBehaviour
 
             if (position.y > YPosition)
             {
-                //Debug.Log("hi");
+               
                 Destroy(gameObject);
             }
         }
