@@ -133,5 +133,6 @@ public enum Sounds
     PAIN,
     PLAYER_WON,
     KEY_SOUND,
+    PLAYER_JUMP,
 
 }

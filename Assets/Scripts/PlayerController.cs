@@ -254,7 +254,10 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger("Die");
     }
 
-
+   public void JumpSound()
+    {
+        SoundManager.Instance.Play(Sounds.PLAYER_JUMP);
+    }
 
 
 }
