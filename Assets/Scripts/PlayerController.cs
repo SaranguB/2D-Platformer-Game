@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     public ScoreController scoreController;
     public Animator animator;
     public BoxCollider2D collission;
-    public float speed;
+    public float playerSpeed;
     private Rigidbody2D rb2D;
     public float jump;
     public List<GameObject> hearts;
@@ -22,8 +22,9 @@ public class PlayerController : MonoBehaviour
     private Camera mainCamera;
     bool isGround;
 
+    private bool canMove = false;
     private int health = 3;
-
+    Vector2 startingPosition;
     private void Awake()
     {
         rb2D = gameObject.GetComponent<Rigidbody2D>();
@@ -33,14 +34,33 @@ public class PlayerController : MonoBehaviour
     public void Start()
     {
 
-
+        startingPosition = transform.position;
         boxColInitSize = collission.size;
         boxColInitOffset = collission.offset;
         mainCamera = Camera.main;
 
     }
+
+    public void startPosiiton()
+    {
+        transform.position = startingPosition;
+    }
+
+    private void Stop()
+    {
+        animator.speed = 0f;
+    }
     void Update()
     {
+        if (isGround)
+        {
+            canMove = true;
+        }
+        else
+        {
+            canMove = false;
+        }
+
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Jump");
 
@@ -48,11 +68,24 @@ public class PlayerController : MonoBehaviour
         MoveCharecter(horizontal, vertical);
         CrouchAnimation();
 
+
     }
     private void PlayMovementAnimation(float horizontal, float vertical)
     {
-        animator.SetFloat("Speed", Mathf.Abs(horizontal));
 
+        if (canMove)
+        {
+            if (vertical <= 0)
+            {
+                animator.SetFloat("Speed", Mathf.Abs(horizontal));
+            }
+
+            else
+            {
+                animator.SetFloat("Speed", 0);
+            }
+
+        }
         Vector3 scale = transform.localScale;
 
         if (horizontal < 0)
@@ -63,11 +96,10 @@ public class PlayerController : MonoBehaviour
         {
             scale.x = Mathf.Abs(scale.x);
         }
-
         transform.localScale = scale;
 
 
-        if (vertical > 0 && isGround)
+        if (vertical > 0)
         {
             animator.SetBool("Jump", true);
 
@@ -81,11 +113,17 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public void ResetCollider()
+    {
+
+        collission.size = boxColInitSize;
+        collission.offset = boxColInitOffset;
+    }
     private void MoveCharecter(float horizontal, float vertical)
     {
 
         Vector3 position = transform.position;
-        position.x += horizontal * speed * Time.deltaTime;
+        position.x += horizontal * playerSpeed * Time.deltaTime;
         transform.position = position;
 
 
@@ -95,6 +133,16 @@ public class PlayerController : MonoBehaviour
         {
             rb2D.AddForce(new Vector2(0f, jump), ForceMode2D.Impulse);
             isGround = false;
+
+
+            Vector2 newSize = collission.size;
+            newSize.y = 1f;
+            collission.size = newSize;
+
+            // Adjust the offset to keep the top of the collider in the same position
+            Vector2 newOffset = collission.offset;
+            newOffset.y = 1.5f;
+            collission.offset = newOffset;
         }
 
     }
@@ -147,9 +195,22 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Platform"))
+        if (other.gameObject.CompareTag("Platform") || other.gameObject.CompareTag("MovingPlatform"))
         {
-            isGround = true;
+            if (Vector2.Dot(other.contacts[0].normal, Vector2.up) > 0.5f)
+            {
+                isGround = true;
+            }
+
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("MovingPlatform"))
+        {
+            transform.parent = other.transform;
+            
         }
     }
     private void OnCollisionExit2D(Collision2D other)
@@ -157,6 +218,12 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Platform"))
         {
             isGround = false;
+        }
+
+        if (other.gameObject.CompareTag("MovingPlatform"))
+        {
+            transform.parent = null;
+           
         }
     }
     public void PickUpKey()
@@ -175,18 +242,19 @@ public class PlayerController : MonoBehaviour
         if (health == 0)
         {
             PlayDeathAnimation();
+            collission.isTrigger = true;
             PlayerDeath();
         }
     }
 
     private void PlayerDeath()
     {
-        //  Debug.Log("hi");
-        mainCamera.transform.parent = null;
+
+       // mainCamera.transform.parent = null;
         rb2D.constraints = RigidbodyConstraints2D.FreezePosition;
         gameOverController.PlayerDied();
         this.enabled = false;
-        //ReloadLevel();
+
     }
 
     private void PlayDeathAnimation()

@@ -12,10 +12,12 @@ public class LevelLoader : MonoBehaviour
     public string levelName;
     private void Awake()
     {
+ 
         button = GetComponent<Button>();
         button.onClick.AddListener(OnClick);
     }
 
+  
     private void OnClick()
     {
         LevelStatus levelStatus = LevelManager.Instance.GetLevelStatus(levelName);

@@ -138,5 +138,7 @@ public enum Sounds
     ENEMY_DEATH,
     MUSIC,
     PAIN,
+    PLAYER_WON,
+    KEY_SOUND,
 
 }

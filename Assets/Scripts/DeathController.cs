@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,8 +8,10 @@ public class DeathController : MonoBehaviour
     {
         if (other.gameObject.GetComponent<PlayerController>() != null)
         {
-            int currentSceneIntex = SceneManager.GetActiveScene().buildIndex;
-            SceneManager.LoadScene(currentSceneIntex);
+            
+            PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
+            playerController.KillPlayer();
+            playerController.startPosiiton();
         }
     }
 

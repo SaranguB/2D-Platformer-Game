@@ -20,14 +20,19 @@ public class LevelCompletedController : MonoBehaviour
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex + 1);
+        SoundManager.Instance.PlayMusic(Sounds.MUSIC);
+
     }
     private void Menu()
     {
         SceneManager.LoadScene(0);
+        SoundManager.Instance.PlayMusic(Sounds.MUSIC);
+
     }
 
     public void PlayerWon()
     {
+        SoundManager.Instance.PlayMusic(Sounds.PLAYER_WON);
         gameObject.SetActive(true);
     }
 

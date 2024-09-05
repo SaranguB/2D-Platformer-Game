@@ -17,6 +17,7 @@ public class GameOverController : MonoBehaviour
     private void LoadMenu()
     {
         SceneManager.LoadScene(0);
+        SoundManager.Instance.PlayMusic(Sounds.MUSIC);
 
     }
     public void PlayerDied()
@@ -29,5 +30,6 @@ public class GameOverController : MonoBehaviour
     {
         int currentSceneIntex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIntex);
+        SoundManager.Instance.PlayMusic(Sounds.MUSIC);
     }
 }

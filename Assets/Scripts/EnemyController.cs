@@ -15,6 +15,7 @@ public class EnemyController : MonoBehaviour
         currentPoint = PointB.transform;
     }
 
+    
     private void Update()
     {
 
@@ -62,6 +63,7 @@ public class EnemyController : MonoBehaviour
         if (other.gameObject.GetComponent<PlayerController>() != null)
         {
             PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
+            //playerController.startPosiiton();
             playerController.KillPlayer();
 
         }
