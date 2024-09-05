@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     private Camera mainCamera;
     bool isGround;
 
+   
+
     private bool canMove = false;
     private int health = 3;
     Vector2 startingPosition;
@@ -125,9 +127,8 @@ public class PlayerController : MonoBehaviour
         if (vertical > 0 && isGround)
         {
             rb2D.AddForce(new Vector2(0f, jump), ForceMode2D.Impulse);
-            isGround = false;
 
-
+           // Debug.Log("hi");
             Vector2 newSize = collission.size;
             newSize.y = 1f;
             collission.size = newSize;
@@ -135,6 +136,8 @@ public class PlayerController : MonoBehaviour
             Vector2 newOffset = collission.offset;
             newOffset.y = 1.5f;
             collission.offset = newOffset;
+            isGround = false;
+
         }
 
     }
@@ -187,11 +190,20 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D other)
     {
+       
+
         if (other.gameObject.CompareTag("Platform") || other.gameObject.CompareTag("MovingPlatform"))
         {
             if (Vector2.Dot(other.contacts[0].normal, Vector2.up) > 0.5f)
             {
+                
                 isGround = true;
+            }
+            else
+            {
+                //Debug.Log("ground is false");
+
+                isGround = false;
             }
 
         }
@@ -199,6 +211,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        ResetCollider();
         if (other.gameObject.CompareTag("MovingPlatform"))
         {
             transform.parent = other.transform;
