@@ -667,7 +667,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4375662932427124013
 RectTransform:
   m_ObjectHideFlags: 0
@@ -770,7 +770,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7319508836971478316}
   m_LocalRotation: {x: 0.70710003, y: 0.0031162295, z: -0.0031159555, w: -0.70709985}
-  m_LocalPosition: {x: -928.6, y: -527.85, z: 1}
+  m_LocalPosition: {x: -802, y: -515, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 0.41375998}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1611,7 +1611,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 100
       minScalar: 10
       maxCurve:
         serializedVersion: 2
